@@ -27,6 +27,8 @@ class TournamentOrganizer(object):
 		else:
 			raise TournamentException(name + ' has not been added yet')
 
+	# TODO: make sure player exists in self.players before recording win/loss/draw_box
+	
 	def record_win(self, winner, record):
 		if winner in self.pairings.keys():
 			self.players[winner].record_win(record)
