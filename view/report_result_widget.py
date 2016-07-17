@@ -87,9 +87,9 @@ class ReportResultWidget(QtGui.QWidget):
 
 	def win_loss_draw(self, record):
 		w, l, d = record
-		if w == MATCH_WIN_NUM_GAMES:
+		if w > l:
 			return 'win'
-		elif l == MATCH_WIN_NUM_GAMES:
+		elif w < l:
 			return 'loss'
 		else:
 			return 'draw'

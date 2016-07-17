@@ -36,7 +36,7 @@ class TournamentOrganizer(object):
 				del self.pairings[opponent]
 			del self.pairings[winner]
 		else:
-			raise TournamentException('win not recorded, pairing for player' + winner + 'does not exist')
+			raise TournamentException('win not recorded, pairing for player ' + winner + ' does not exist')
 
 	def record_loss(self, loser, record):
 		if loser in self.pairings.keys():
@@ -47,7 +47,7 @@ class TournamentOrganizer(object):
 				del self.pairings[opponent]
 			del self.pairings[loser]
 		else:
-			raise TournamentException('win not recorded, pairing for player' + winner + 'does not exist')
+			raise TournamentException('win not recorded, pairing for player ' + winner + ' does not exist')
 
 	def record_draw(self, player, record):
 		if player in self.pairings.keys():
@@ -59,9 +59,9 @@ class TournamentOrganizer(object):
 				del self.pairings[player]
 				del self.pairings[opponent]
 			else:
-				raise TournamentException('draw not recorded, player' + player + 'has a bye and cannot draw')
+				raise TournamentException('draw not recorded, player ' + player + ' has a bye and cannot draw')
 		else:
-			raise TournamentException('draw not recorded, pairing for player' + player + 'does not exist')
+			raise TournamentException('draw not recorded, pairing for player ' + player + ' does not exist')
 
 	def sorted_players(self, method='by_rank'):
 		if method == 'by_rank':
