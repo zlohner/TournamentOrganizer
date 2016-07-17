@@ -29,10 +29,12 @@ class TournamentOrganizerWidget(QtGui.QWidget):
 		view.notifier.observers.append(self)
 
 		self.header_label = QtGui.QLabel('Tournament Organizer')
+		self.round_info = QtGui.QLabel()
 
 		self.header_widget = QtGui.QWidget(self)
-		header_layout = QtGui.QBoxLayout(QtGui.QBoxLayout.TopToBottom)
+		header_layout = QtGui.QBoxLayout(QtGui.QBoxLayout.LeftToRight)
 		header_layout.addWidget(self.header_label)
+		header_layout.addWidget(self.round_info)
 		self.header_widget.setLayout(header_layout)
 
 		self.sort_by_name_btn = QtGui.QPushButton('Sort by Name', self)
@@ -40,12 +42,12 @@ class TournamentOrganizerWidget(QtGui.QWidget):
 		self.sort_by_rank_btn = QtGui.QPushButton('Sort by Rank', self)
 		self.sort_by_rank_btn.clicked.connect(self.sort_by_rank)
 
-		self.sort_buttons_widget = QtGui.QWidget(self)
-		sort_buttons_layout = QtGui.QBoxLayout(QtGui.QBoxLayout.LeftToRight)
-		sort_buttons_layout.addWidget(self.sort_by_name_btn)
-		sort_buttons_layout.addSpacing(10)
-		sort_buttons_layout.addWidget(self.sort_by_rank_btn)
-		self.sort_buttons_widget.setLayout(sort_buttons_layout)
+		self.sort_btns_widget = QtGui.QWidget(self)
+		sort_btns_layout = QtGui.QBoxLayout(QtGui.QBoxLayout.LeftToRight)
+		sort_btns_layout.addWidget(self.sort_by_name_btn)
+		sort_btns_layout.addSpacing(10)
+		sort_btns_layout.addWidget(self.sort_by_rank_btn)
+		self.sort_btns_widget.setLayout(sort_btns_layout)
 
 		self.player_list = QtGui.QTableWidget(style.style_loader.TABLE_INITIAL_LENGTH, 2, self)
 		self.player_list.setFixedHeight(300)
@@ -63,34 +65,48 @@ class TournamentOrganizerWidget(QtGui.QWidget):
 		self.remove_player_btn = QtGui.QPushButton('Remove Player', self)
 		self.remove_player_btn.clicked.connect(self.parent.show_remove_player_widget)
 
-		self.player_buttons_widget = QtGui.QWidget(self)
-		player_button_layout = QtGui.QBoxLayout(QtGui.QBoxLayout.LeftToRight)
-		player_button_layout.addWidget(self.add_player_btn)
-		player_button_layout.addSpacing(10)
-		player_button_layout.addWidget(self.remove_player_btn)
-		self.player_buttons_widget.setLayout(player_button_layout)
+		self.player_btns_widget = QtGui.QWidget(self)
+		player_btn_layout = QtGui.QBoxLayout(QtGui.QBoxLayout.LeftToRight)
+		player_btn_layout.addWidget(self.add_player_btn)
+		player_btn_layout.addSpacing(10)
+		player_btn_layout.addWidget(self.remove_player_btn)
+		self.player_btns_widget.setLayout(player_btn_layout)
 
-		self.pairings_button = QtGui.QPushButton('Start Round',self)
-		self.pairings_button.clicked.connect(self.create_pairings)
+		self.submit_btn = QtGui.QPushButton('Start Round',self)
+		self.submit_btn.clicked.connect(self.create_pairings)
 
-		self.pairings_button_widget = QtGui.QWidget(self)
-		pairings_button_layout = QtGui.QBoxLayout(QtGui.QBoxLayout.LeftToRight)
-		pairings_button_layout.addWidget(self.pairings_button)
-		self.pairings_button_widget.setLayout(pairings_button_layout)
+		self.submit_btn_widget = QtGui.QWidget(self)
+		submit_btn_layout = QtGui.QBoxLayout(QtGui.QBoxLayout.LeftToRight)
+		submit_btn_layout.addWidget(self.submit_btn)
+		self.submit_btn_widget.setLayout(submit_btn_layout)
 
 		self.error = None
 
 		layout = QtGui.QFormLayout()
 		layout.addRow(self.header_widget)
-		layout.addRow(self.sort_buttons_widget)
+		layout.addRow(self.sort_btns_widget)
 		layout.addRow(self.player_list_widget)
-		layout.addRow(self.player_buttons_widget)
-		layout.addRow(self.pairings_button_widget)
+		layout.addRow(self.player_btns_widget)
+		layout.addRow(self.submit_btn_widget)
 		self.setLayout(layout)
 
 		self.update()
 
 	def update(self):
+		self.round_info.setText('- Round ' + str(to.round_num) + '/' + str(to.rounds))
+		if len(to.pairings) > 0:
+			self.submit_btn.setText('Round In Progress')
+			self.submit_btn.setEnabled(False)
+		elif to.round_num == 0:
+			self.submit_btn.setText('Start Tournament')
+			self.submit_btn.setEnabled(True)
+		elif to.round_num == to.rounds:
+			self.submit_btn.setText('Tournament Ended')
+			self.submit_btn.setEnabled(False)
+		else:
+			self.submit_btn.setText('Start Round')
+			self.submit_btn.setEnabled(True)
+
 		self.player_list.clearContents()
 
 		players = [to.players[player] for player in to.sorted_players(self.sort_order)]
@@ -133,7 +149,7 @@ class TournamentOrganizerWidget(QtGui.QWidget):
 		self.update()
 
 	def pairings_created(self):
-		pass
+		self.update()
 
 	def sort_by_name(self):
 		self.sort_order = 'by_name'

@@ -47,19 +47,19 @@ QTableWidget::item:selected {
 	height: inherit;
 }
 
-QScrollBar:vertical {
+QScrollBar:vertical, QScrollBar:horizontal {
 	border: 2px solid @bgcolor;
 	background: @fgcolor1;
 	width: 15px;
 	margin: 22px 0 22px 0;
 }
 
-QScrollBar::handle:vertical {
+QScrollBar::handle:vertical, QScrollBar::handle,horizontal {
 	background: @fgcolor2;
 	min-height: 20px;
 }
 
-QScrollBar::add-line:vertical {
+QScrollBar::add-line:vertical, QScrollBar::add-line:horizontal {
 	border: 2px solid @bgcolor;
 	background: @fgcolor1;
 	height: 20px;
@@ -67,7 +67,7 @@ QScrollBar::add-line:vertical {
 	subcontrol-origin: margin;
 }
 
-QScrollBar::sub-line:vertical {
+QScrollBar::sub-line:vertical, QScrollBar::sub-line:horizontal {
 	border: 2px solid @bgcolor;
 	background: @fgcolor1;
 	height: 20px;
@@ -82,7 +82,18 @@ QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
 	background: @fgcolor1;
 }
 
+QScrollBar::left-arrow:horizontal, QScrollBar::right-arrow:horizontal {
+	border: 2px solid @bgcolor;
+	width: 3px;
+	height: 3px;
+	background: @fgcolor1;
+}
+
 QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+	background: none;
+}
+
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
 	background: none;
 }
 
@@ -151,6 +162,15 @@ QPushButton {
 	font-weight: lighter;
 	background-color: @fgcolor1;
 	color: @bgcolor;
+	border-width: 2px;
+	font: 20pt;
+}
+
+QPushButton:disabled {
+	font-family: @font;
+	font-weight: lighter;
+	background-color: @bgcolor;
+	color: @fgcolor1;
 	border-width: 2px;
 	font: 20pt;
 }

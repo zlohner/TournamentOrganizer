@@ -18,6 +18,7 @@ class TournamentOrganizerWindow(QtGui.QMainWindow):
 
 		self.tournament_organizer_widget = TournamentOrganizerWidget(self)
 		self.setCentralWidget(self.tournament_organizer_widget)
+		self.move(150, 100)
 
 		self.add_player_widget = AddPlayerWidget()
 		self.remove_player_widget = RemovePlayerWidget()

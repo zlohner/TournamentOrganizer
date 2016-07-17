@@ -12,6 +12,7 @@ class PairingsWindow(QtGui.QMainWindow):
 
 		# self.setWindowTitle('Pairings')
 		self.setStyleSheet(style.style_loader.stylesheet)
+		self.move(850, 150)
 
 		self.pairings_widget = PairingsWidget(self)
 		self.setCentralWidget(self.pairings_widget)
@@ -21,6 +22,7 @@ class PairingsWindow(QtGui.QMainWindow):
 		self.show()
 		self.setFixedWidth(self.width())
 		self.setFixedHeight(self.height())
+		self.close()
 
 	def show_report_result_widget(self):
 		self.report_result_widget.show()

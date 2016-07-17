@@ -82,6 +82,11 @@ class ReportResultWidget(QtGui.QWidget):
 		layout.addRow(self.submit_btn_widget)
 		self.setLayout(layout)
 
+		self.show()
+		self.setFixedHeight(self.height())
+		self.setFixedWidth(self.width())
+		self.close()
+
 	def get_record(self):
 		return (self.win_box.value(), self.loss_box.value(), self.draw_box.value())
 

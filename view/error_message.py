@@ -33,5 +33,10 @@ class ErrorMessage(QtGui.QWidget):
 		layout.addRow(self.submit_btn_widget)
 		self.setLayout(layout)
 
+		self.show()
+		self.setFixedHeight(self.height())
+		self.setFixedWidth(self.width())
+		self.close()
+
 	def submit(self):
 		self.close()
