@@ -1,0 +1,156 @@
+QFrame {
+	background: @bgcolor;
+	color: @fgcolor;
+	font-family: @font;
+}
+
+QMainWindow {
+	background-color: @bgcolor;
+}
+
+QMainWindow::separator {
+	width: 10px;
+	height: 10px;
+}
+
+QWidget {
+	background-color: @bgcolor;
+}
+
+QTableWidget {
+	font-family: @font;
+	background-color: @fgcolor2;
+	color: @bgcolor;
+	border: 1px solid @fgcolor1;
+	font: 20pt;
+}
+
+QTableWidget::item {
+	height: 35px;
+}
+
+QHeaderView {
+	width: 200px;
+}
+
+QHeaderView::section {
+	background-color: @fgcolor2;
+	color: @fgcolor1;
+	padding: 4px;
+	width: 25px;
+	border: 1px solid @fgcolor1;
+	font-size: 20pt;
+}
+
+QTableWidget::item:selected {
+	background: @fgcolor1;
+	height: inherit;
+}
+
+QScrollBar:vertical {
+	border: 2px solid @bgcolor;
+	background: @fgcolor1;
+	width: 15px;
+	margin: 22px 0 22px 0;
+}
+
+QScrollBar::handle:vertical {
+	background: @fgcolor2;
+	min-height: 20px;
+}
+
+QScrollBar::add-line:vertical {
+	border: 2px solid @bgcolor;
+	background: @fgcolor1;
+	height: 20px;
+	subcontrol-position: bottom;
+	subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:vertical {
+	border: 2px solid @bgcolor;
+	background: @fgcolor1;
+	height: 20px;
+	subcontrol-position: top;
+	subcontrol-origin: margin;
+}
+
+QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+	border: 2px solid @bgcolor;
+	width: 3px;
+	height: 3px;
+	background: @fgcolor1;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+	background: none;
+}
+
+QLineEdit {
+	font-family: @font;
+	background-color: @fgcolor2;
+	color: @bgcolor;
+	width: 100px;
+	height:30px;
+	border-width: 0px;
+	font: 20pt;
+}
+
+QSpinBox {
+	font-family: @font;
+	background-color: @fgcolor2;
+	color: @bgcolor;
+	width: 40px;
+	height:30px;
+	border-width: 2px;
+	font: 20pt;
+}
+
+QSpinBox::up-button {
+	border: 2px solid @bgcolor;
+	width: 15px;
+	height: 15px;
+	background: @fgcolor1;
+}
+
+QSpinBox::up-arrow {
+	border: 2px solid @bgcolor;
+	width: 3px;
+	height: 3px;
+	background: @fgcolor1;
+}
+
+QSpinBox::down-button {
+	border: 2px solid @bgcolor;
+	width: 15px;
+	height: 15px;
+	background: @fgcolor1;
+}
+
+QSpinBox::down-arrow {
+	border: 2px solid @bgcolor;
+	width: 3px;
+	height: 3px;
+	background: @fgcolor1;
+}
+
+QLabel {
+	font-family: @font;
+	font-weight: lighter;
+	color: @fgcolor1;
+	font: 20pt;
+}
+
+QErrorMessage {
+	background-color: @bgcolor;
+	color: @fgcolor1;
+}
+
+QPushButton {
+	font-family: @font;
+	font-weight: lighter;
+	background-color: @fgcolor1;
+	color: @bgcolor;
+	border-width: 2px;
+	font: 20pt;
+}
