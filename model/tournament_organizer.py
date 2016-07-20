@@ -3,6 +3,7 @@
 import random
 import math
 from sets import Set
+import time
 
 from player import Player
 from timer import Timer
@@ -28,7 +29,7 @@ class TournamentOrganizer(object):
 			raise TournamentException(name + ' has not been added yet')
 
 	# TODO: make sure player exists in self.players before recording win/loss/draw_box
-	
+
 	def record_win(self, winner, record):
 		if winner in self.pairings.keys():
 			self.players[winner].record_win(record)
@@ -82,9 +83,6 @@ class TournamentOrganizer(object):
 
 	def make_restrictions(self):
 		restrictions = []
-		for name, player in self.players.iteritems():
-			if len(player.opponents) < self.round_num - 1:
-				restrictions.append((name, None))
 		for p1 in self.players.keys():
 			for p2 in self.players[p1].opponents:
 				restrictions.append((p1, p2.name))
@@ -100,37 +98,28 @@ class TournamentOrganizer(object):
 		self.round_num += 1
 
 		if self.round_num > self.rounds:
-			raise TournamentException('Tournament has ended, ' + self.sorted_players('by_rank')[0] + ' wins!')
+			raise TournamentException('Tournament has ended, ' + self.sorted_players()[0] + ' wins!')
 
 		restrictions = self.make_restrictions()
 		restrictions.append(None)
 		unpaired_count = 2
 
-		# redo pairings with looser requirements current restrictions don't pair all players
-		while unpaired_count > 1:
+		MAX_BYES = len(to.players) % 2
+		while unpaired_count > MAX_BYES:
 
-			# reset pairings
 			self.pairings = {}
 
-			# remove one restriction
 			restrictions = restrictions[:-1]
 
-			# names of unpaired players
 			unpaired = self.sorted_players() + [ None ]
-			unpaired_count = len(unpaired)
+			unpaired_count = len(unpaired) - 1
 
-			# make all pairings
-			while len(unpaired) > 1:
-				# make one pairing
-
-				# pair the first available player
+			while len(unpaired) > 1 and not unpaired[0] == None:
 				p1 = unpaired[0]
 				unpaired = unpaired[1:]
 
-				# keep track of skipped possible pairings
 				restricted = []
 
-				# stop once a valid pairing is found
 				paired = False
 
 				while not paired and len(unpaired) > 0:
@@ -141,10 +130,18 @@ class TournamentOrganizer(object):
 					else:
 						self.make_pair(p1, p2)
 						paired = True
-
-				if paired:
-					unpaired_count -= 2
+						if p2 == None:
+							unpaired_count -= 1
+						else:
+							unpaired_count -= 2
 
 				unpaired = restricted + unpaired
+
+	def reset(self):
+		self.players = {}
+		self.pairings = {}
+		self.round_num = 0
+		self.rounds = 0
+		self.timer = Timer()
 
 to = TournamentOrganizer()

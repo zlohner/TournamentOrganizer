@@ -8,4 +8,4 @@ __all__ = [
 	'report_result_widget',
 	'tournament_organizer_widget',
 	'tournament_organizer_window'
-	]
+]

@@ -21,3 +21,7 @@ def report_result(player, record, win_or_draw):
 def result_reported():
 	for o in observers:
 		o.result_reported()
+
+def reset():
+	for o in observers:
+		o.reset()

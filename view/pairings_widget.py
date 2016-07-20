@@ -96,3 +96,7 @@ class PairingsWidget(QtGui.QWidget):
 	def result_reported(self):
 		self.update()
 		self.parent.show()
+
+	def reset(self):
+		self.update()
+		self.parent.show()

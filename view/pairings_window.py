@@ -22,7 +22,6 @@ class PairingsWindow(QtGui.QMainWindow):
 		self.show()
 		self.setFixedWidth(self.width())
 		self.setFixedHeight(self.height())
-		self.close()
 
 	def show_report_result_widget(self):
 		self.report_result_widget.show()

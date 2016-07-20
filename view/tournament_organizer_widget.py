@@ -72,8 +72,8 @@ class TournamentOrganizerWidget(QtGui.QWidget):
 		player_btn_layout.addWidget(self.remove_player_btn)
 		self.player_btns_widget.setLayout(player_btn_layout)
 
-		self.submit_btn = QtGui.QPushButton('Start Round',self)
-		self.submit_btn.clicked.connect(self.create_pairings)
+		self.submit_btn = QtGui.QPushButton(self)
+		self.submit_btn.clicked.connect(self.submit)
 
 		self.submit_btn_widget = QtGui.QWidget(self)
 		submit_btn_layout = QtGui.QBoxLayout(QtGui.QBoxLayout.LeftToRight)
@@ -101,8 +101,8 @@ class TournamentOrganizerWidget(QtGui.QWidget):
 			self.submit_btn.setText('Start Tournament')
 			self.submit_btn.setEnabled(True)
 		elif to.round_num == to.rounds:
-			self.submit_btn.setText('Tournament Ended')
-			self.submit_btn.setEnabled(False)
+			self.submit_btn.setText('Tournament Ended - Reset')
+			self.submit_btn.setEnabled(True)
 		else:
 			self.submit_btn.setText('Start Round')
 			self.submit_btn.setEnabled(True)
@@ -123,6 +123,27 @@ class TournamentOrganizerWidget(QtGui.QWidget):
 			self.player_list.setItem(index, 1, record_item)
 			index += 1
 		self.player_list.show()
+
+	def sort_by_name(self):
+		self.sort_order = 'by_name'
+		self.update()
+
+	def sort_by_rank(self):
+		self.sort_order = 'by_rank'
+		self.update()
+
+	def submit(self):
+		if to.rounds > 0 and to.round_num == to.rounds:
+			to.reset()
+			view.notifier.reset()
+		else:
+			try:
+				to.make_pairings()
+				view.notifier.pairings_created()
+			except TournamentException as ex:
+				self.error = ErrorMessage(str(ex), '')
+				self.error.setStyleSheet(style.style_loader.stylesheet)
+				self.error.show()
 
 	def player_added(self, player):
 		try:
@@ -151,19 +172,5 @@ class TournamentOrganizerWidget(QtGui.QWidget):
 	def pairings_created(self):
 		self.update()
 
-	def sort_by_name(self):
-		self.sort_order = 'by_name'
+	def reset(self):
 		self.update()
-
-	def sort_by_rank(self):
-		self.sort_order = 'by_rank'
-		self.update()
-
-	def create_pairings(self):
-		try:
-			to.make_pairings()
-			view.notifier.pairings_created()
-		except TournamentException as ex:
-			self.error = ErrorMessage(str(ex), '')
-			self.error.setStyleSheet(style.style_loader.stylesheet)
-			self.error.show()

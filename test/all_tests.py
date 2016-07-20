@@ -7,7 +7,6 @@ from model.tournament_exception import TournamentException
 
 def runTests():
 	tournament_organizer_tests = unittest.TestLoader().loadTestsFromTestCase(TournamentOrganizerTest)
-
 	all_tests = unittest.TestSuite([tournament_organizer_tests])
 
 	result = unittest.TestResult()
