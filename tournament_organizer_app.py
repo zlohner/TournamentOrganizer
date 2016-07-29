@@ -14,7 +14,6 @@ def parseArgs():
 		description='An app for organizing and running swiss style tournaments', \
 		add_help=True)
 	parser.add_argument('-t', '--test', action='store_true', help='run tests', default=False)
-	parser.add_argument('-r', '--run', action='store_true', help='run the program', default=False)
 	return parser.parse_args()
 
 def run():
@@ -27,5 +26,5 @@ if __name__ == '__main__':
 	args = parseArgs()
 	if args.test:
 		runTests()
-	if args.run:
+	else:
 		run()
