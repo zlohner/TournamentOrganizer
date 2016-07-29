@@ -19,6 +19,7 @@ class Player(object):
 		self.game_losses = 0
 		self.game_draws = 0
 		self.opponents = Set()
+		self.byes = 0
 		self.sort_constant = random.randint(1, sys.maxint)
 
 	def add_record(self, record):

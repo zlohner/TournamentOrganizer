@@ -139,6 +139,7 @@ class TournamentOrganizerWidget(QtGui.QWidget):
 		else:
 			try:
 				to.make_pairings()
+				to.lock_pairings()
 				view.notifier.pairings_created()
 			except TournamentException as ex:
 				self.error = ErrorMessage(str(ex), '')

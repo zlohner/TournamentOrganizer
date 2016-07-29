@@ -77,9 +77,7 @@ class TournamentOrganizer(object):
 	def make_pair(self, p1, p2):
 		self.pairings[p1] = p2
 		if p2 != None:
-			self.players[p1].opponents.add(self.players[p2])
 			self.pairings[p2] = p1
-			self.players[p2].opponents.add(self.players[p1])
 
 	def make_restrictions(self):
 		restrictions = []
@@ -91,14 +89,6 @@ class TournamentOrganizer(object):
 	def make_pairings(self):
 		if len(self.pairings) > 0:
 			raise TournamentException('Can\'t make pairings, round still in progress')
-
-		if self.round_num == 0:
-			self.rounds = int(math.ceil(math.log(len(self.players), 2)))
-
-		self.round_num += 1
-
-		if self.round_num > self.rounds:
-			raise TournamentException('Tournament has ended, ' + self.sorted_players()[0] + ' wins!')
 
 		restrictions = self.make_restrictions()
 		restrictions.append(None)
@@ -136,6 +126,20 @@ class TournamentOrganizer(object):
 							unpaired_count -= 2
 
 				unpaired = restricted + unpaired
+
+	def lock_pairings(self):
+		if self.round_num == 0:
+			self.rounds = int(math.ceil(math.log(len(self.players), 2)))
+
+		self.round_num += 1
+
+		if self.round_num > self.rounds:
+			raise TournamentException('Tournament has ended, ' + self.sorted_players()[0] + ' wins!')
+			
+		for p1, p2 in self.pairings.iteritems():
+			if not p2 == None:
+				self.players[p1].opponents.add(self.players[p2])
+				self.players[p2].opponents.add(self.players[p1])
 
 	def reset(self):
 		self.players = {}
