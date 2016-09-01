@@ -7,6 +7,7 @@ from view.tournament_organizer_widget import TournamentOrganizerWidget
 from view.add_player_widget import AddPlayerWidget
 from view.remove_player_widget import RemovePlayerWidget
 from view.pairings_window import PairingsWindow
+from view.round_manager_window import RoundManagerWindow
 
 class TournamentOrganizerWindow(QtGui.QMainWindow):
 	def __init__(self):
@@ -23,8 +24,9 @@ class TournamentOrganizerWindow(QtGui.QMainWindow):
 		self.add_player_widget = AddPlayerWidget()
 		self.remove_player_widget = RemovePlayerWidget()
 		self.pairings_window = PairingsWindow()
+		self.round_manager_window = RoundManagerWindow()
 
-		# self.create_menu_bar() TODO: fix menu bar
+		self.create_menu_bar()
 
 		self.show()
 		self.setFixedWidth(self.width())
@@ -36,7 +38,7 @@ class TournamentOrganizerWindow(QtGui.QMainWindow):
 		self.player_menu = QtGui.QMenu('Players', self)
 		self.player_menu.addAction('Add Player', self.show_add_player_widget)
 		self.player_menu.addAction('Remove Player', self.show_remove_player_widget)
-		self.player_menu.addAction('Random Seating')
+		# self.player_menu.addAction('Random Seating', self.randomize_players) TODO: make random pairing window
 
 		self.pairings_menu = QtGui.QMenu('Pairings', self)
 		self.pairings_menu.addAction('Make Pairings')

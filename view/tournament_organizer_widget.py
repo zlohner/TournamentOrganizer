@@ -12,6 +12,8 @@ class TournamentOrganizerWidget(QtGui.QWidget):
 	def __init__(self, parent):
 		super(TournamentOrganizerWidget, self).__init__(parent)
 		self.parent = parent
+
+		# Default Players (for quick testing)
 		player_names = [
 			'Zac',
 			'Michael',
@@ -27,14 +29,15 @@ class TournamentOrganizerWidget(QtGui.QWidget):
 		self.sort_order = 'by_name'
 
 		view.notifier.observers.append(self)
+		timer = QtCore.QTimer(self)
+		timer.timeout.connect(self.update)
+		timer.start()
 
 		self.header_label = QtGui.QLabel('Tournament Organizer')
-		self.round_info = QtGui.QLabel()
 
 		self.header_widget = QtGui.QWidget(self)
 		header_layout = QtGui.QBoxLayout(QtGui.QBoxLayout.LeftToRight)
 		header_layout.addWidget(self.header_label)
-		header_layout.addWidget(self.round_info)
 		self.header_widget.setLayout(header_layout)
 
 		self.sort_by_name_btn = QtGui.QPushButton('Sort by Name', self)
@@ -72,14 +75,6 @@ class TournamentOrganizerWidget(QtGui.QWidget):
 		player_btn_layout.addWidget(self.remove_player_btn)
 		self.player_btns_widget.setLayout(player_btn_layout)
 
-		self.submit_btn = QtGui.QPushButton(self)
-		self.submit_btn.clicked.connect(self.submit)
-
-		self.submit_btn_widget = QtGui.QWidget(self)
-		submit_btn_layout = QtGui.QBoxLayout(QtGui.QBoxLayout.LeftToRight)
-		submit_btn_layout.addWidget(self.submit_btn)
-		self.submit_btn_widget.setLayout(submit_btn_layout)
-
 		self.error = None
 
 		layout = QtGui.QFormLayout()
@@ -87,26 +82,11 @@ class TournamentOrganizerWidget(QtGui.QWidget):
 		layout.addRow(self.sort_btns_widget)
 		layout.addRow(self.player_list_widget)
 		layout.addRow(self.player_btns_widget)
-		layout.addRow(self.submit_btn_widget)
 		self.setLayout(layout)
 
 		self.update()
 
 	def update(self):
-		self.round_info.setText('- Round ' + str(to.round_num) + '/' + str(to.rounds))
-		if len(to.pairings) > 0:
-			self.submit_btn.setText('Round In Progress')
-			self.submit_btn.setEnabled(False)
-		elif to.round_num == 0:
-			self.submit_btn.setText('Start Tournament')
-			self.submit_btn.setEnabled(True)
-		elif to.round_num == to.rounds:
-			self.submit_btn.setText('Tournament Ended - Reset')
-			self.submit_btn.setEnabled(True)
-		else:
-			self.submit_btn.setText('Start Round')
-			self.submit_btn.setEnabled(True)
-
 		self.player_list.clearContents()
 
 		players = [to.players[player] for player in to.sorted_players(self.sort_order)]
@@ -131,20 +111,6 @@ class TournamentOrganizerWidget(QtGui.QWidget):
 	def sort_by_rank(self):
 		self.sort_order = 'by_rank'
 		self.update()
-
-	def submit(self):
-		if to.rounds > 0 and to.round_num == to.rounds:
-			to.reset()
-			view.notifier.reset()
-		else:
-			try:
-				to.make_pairings()
-				to.lock_pairings()
-				view.notifier.pairings_created()
-			except TournamentException as ex:
-				self.error = ErrorMessage(str(ex), '')
-				self.error.setStyleSheet(style.style_loader.stylesheet)
-				self.error.show()
 
 	def player_added(self, player):
 		try:

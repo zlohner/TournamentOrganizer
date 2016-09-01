@@ -14,6 +14,9 @@ class PairingsWidget(QtGui.QWidget):
 		self.parent = parent
 
 		view.notifier.observers.append(self)
+		timer = QtCore.QTimer(self)
+		timer.timeout.connect(self.update)
+		timer.start()
 
 		self.header_label = QtGui.QLabel('Pairings')
 

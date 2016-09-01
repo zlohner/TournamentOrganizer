@@ -73,6 +73,10 @@ class TournamentOrganizer(object):
 			return [player.name for player in players]
 		elif method == 'by_name':
 			return [player for player in sorted(self.players.keys())]
+		elif method == 'random':
+			players = self.players.keys()
+			random.shuffle(players)
+			return players
 
 	def make_pair(self, p1, p2):
 		self.pairings[p1] = p2
@@ -87,6 +91,8 @@ class TournamentOrganizer(object):
 		return restrictions
 
 	def make_pairings(self):
+		if len(to.players) < 4:
+			raise TournamentException('Can\'t start tournament, not enough players')
 		if len(self.pairings) > 0:
 			raise TournamentException('Can\'t make pairings, round still in progress')
 
@@ -132,10 +138,12 @@ class TournamentOrganizer(object):
 			self.rounds = int(math.ceil(math.log(len(self.players), 2)))
 
 		self.round_num += 1
+		to.timer.set(3000)
+		to.timer.start()
 
 		if self.round_num > self.rounds:
 			raise TournamentException('Tournament has ended, ' + self.sorted_players()[0] + ' wins!')
-			
+
 		for p1, p2 in self.pairings.iteritems():
 			if not p2 == None:
 				self.players[p1].opponents.add(self.players[p2])
@@ -146,6 +154,7 @@ class TournamentOrganizer(object):
 		self.pairings = {}
 		self.round_num = 0
 		self.rounds = 0
-		self.timer = Timer()
+		self.timer.reset()
 
 to = TournamentOrganizer()
+to.timer.withFormatting()

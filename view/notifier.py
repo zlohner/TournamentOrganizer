@@ -2,6 +2,10 @@
 
 observers = []
 
+def update():
+	for o in observers:
+		o.update()
+
 def player_added(player):
 	for o in observers:
 		o.player_added(player)

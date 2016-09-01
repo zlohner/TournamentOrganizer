@@ -1,28 +1,42 @@
+#!/usr/bin/env python
+
 from time import *
 
 class Timer(object):
 	def __init__(self):
-		self._start = 0
+		self._start = -1
 		self._end = -1
 		self._time = 0
 		self.formatted = False
 
 	def start(self):
-		self._start = time()
+		self._end = -1
+		self._start = int(time())
+		return self
 
 	def stop(self):
-		self._end = time()
+		self._end = int(time())
+		return self
 
 	def set(self, time):
+		self.reset()
 		self._time = time
+		return self
 
-	def withFormatting(self, formatted):
+	def reset(self):
+		self._start = -1
+		self._end = -1
+
+	def withFormatting(self, formatted=True):
 		self.formatted = formatted
+		return self
 
 	def elapsed(self, allowFormatted=True):
 		elapsed = -1
-		if self._end == -1:
-			elapsed = (time() - self._start)
+		if self._start == -1:
+			elapsed = 0
+		elif self._end == -1:
+			elapsed = (int(time()) - self._start)
 		else:
 			elapsed = (self._end - self._start)
 
@@ -33,6 +47,10 @@ class Timer(object):
 
 	def remaining(self, allowFormatted=True):
 		remaining = (self._time - self.elapsed(allowFormatted=False))
+
+		if remaining < 0:
+			remaining = 0
+
 		if allowFormatted and self.formatted:
 			remaining = self.format(remaining)
 
@@ -65,16 +83,14 @@ class Timer(object):
 		return ''.join(timeString)
 
 if __name__ == '__main__':
-	timer = Timer()
-	timer.set(7200)
-	timer.withFormatting(True)
+	timer = Timer().withFormatting(True).set(3600)
+	print timer.elapsed()
+	print timer.remaining()
 	timer.start()
-	sleep(1)
-	print timer.elapsed()
-	print timer.remaining()
-	sleep(1)
-	print timer.elapsed()
-	print timer.remaining()
+	for i in range(5):
+		sleep(1)
+		print timer.elapsed()
+		print timer.remaining()
 	timer.stop()
 	sleep(1)
 	print timer.elapsed()
