@@ -69,8 +69,7 @@ class TournamentOrganizer(object):
 	def sorted_players(self, method='by_rank'):
 		if method == 'by_rank':
 			players = self.players.values()
-			players = sorted(players)
-			return [player.name for player in players]
+			return [player.name for player in sorted(players)]
 		elif method == 'by_name':
 			return [player for player in sorted(self.players.keys())]
 		elif method == 'random':
@@ -91,7 +90,7 @@ class TournamentOrganizer(object):
 		return restrictions
 
 	def make_pairings(self):
-		if len(to.players) < 4:
+		if to.round_num == 0 and len(to.players) < 4:
 			raise TournamentException('Can\'t start tournament, not enough players')
 		if len(self.pairings) > 0:
 			raise TournamentException('Can\'t make pairings, round still in progress')

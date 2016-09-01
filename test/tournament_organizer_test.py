@@ -96,9 +96,9 @@ def run_random_tournament(NUM_PLAYERS, DROP_AFTER_ROUND=0, PRINT_OUTPUT=False):
 		for name, player in to.players.iteritems():
 			if len(player.opponents) < to.round_num - 1:
 				print 'WARNING: Player received multiple byes'
-				print 'Player:',str(player),'Opponents:',[str(opponent) for opponent in player.opponents]
-				print 'Standings:'
-				print players()
+				# print 'Player:',str(player),'Opponents:',[str(opponent) for opponent in player.opponents]
+				# print 'Standings:'
+				# print players()
 
 		to.lock_pairings()
 
@@ -113,7 +113,8 @@ def run_random_tournament(NUM_PLAYERS, DROP_AFTER_ROUND=0, PRINT_OUTPUT=False):
 				played.append(opponent)
 
 		for NUM_TO_DROP in range(DROP_AFTER_ROUND):
-			to.remove_player(to.sorted_players()[-1])
+			if len(to.players) > 0:
+				to.remove_player(to.sorted_players()[-1])
 
 	if PRINT_OUTPUT:
 		print 'Results:'
@@ -121,13 +122,14 @@ def run_random_tournament(NUM_PLAYERS, DROP_AFTER_ROUND=0, PRINT_OUTPUT=False):
 
 def run_multiple_tournaments(NUM_TOURNAMENTS, RANGE_START, RANGE_END):
 	for i in range(NUM_TOURNAMENTS / 2):
+		r = random.randint(RANGE_START, RANGE_END)
 		run_random_tournament(
-			random.randint(RANGE_START, RANGE_END),
+			r,
 			PRINT_OUTPUT=False
 		)
 		run_random_tournament(
-			random.randint(RANGE_START, RANGE_END),
-			DROP_AFTER_ROUND=random.randint(0, max(1, math.floor(len(to.players) * 0.1))),
+			r,
+			DROP_AFTER_ROUND=random.randint(0, max(1, int(r * 0.1))),
 			PRINT_OUTPUT=False
 		)
 	if NUM_TOURNAMENTS % 2 == 1:
