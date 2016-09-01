@@ -12,6 +12,7 @@ class RoundManagerWindow(QtGui.QMainWindow):
 		# self.setWindowTitle('Tournament Organizer')
 		self.setWindowIcon(QtGui.QIcon(QtGui.QPixmap(style.style_loader.ICON_FILENAME_JPG)))
 		self.setStyleSheet(style.style_loader.stylesheet)
+		self.move(740, 600)
 
 		self.round_manager_widget = RoundManagerWidget(self)
 		self.setCentralWidget(self.round_manager_widget)

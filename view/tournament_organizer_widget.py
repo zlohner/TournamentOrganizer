@@ -29,11 +29,8 @@ class TournamentOrganizerWidget(QtGui.QWidget):
 		self.sort_order = 'by_name'
 
 		view.notifier.observers.append(self)
-		timer = QtCore.QTimer(self)
-		timer.timeout.connect(self.update)
-		timer.start()
 
-		self.header_label = QtGui.QLabel('Tournament Organizer')
+		self.header_label = QtGui.QLabel('Players')
 
 		self.header_widget = QtGui.QWidget(self)
 		header_layout = QtGui.QBoxLayout(QtGui.QBoxLayout.LeftToRight)

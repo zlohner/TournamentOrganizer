@@ -20,7 +20,7 @@ class RoundManagerWidget(QtGui.QWidget):
 		timer.timeout.connect(self.update)
 		timer.start()
 
-		self.header_label = QtGui.QLabel('Round Manager')
+		self.header_label = QtGui.QLabel('Round')
 
 		self.header_widget = QtGui.QWidget(self)
 		header_layout = QtGui.QBoxLayout(QtGui.QBoxLayout.LeftToRight)
