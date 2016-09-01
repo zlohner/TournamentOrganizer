@@ -137,8 +137,8 @@ class TournamentOrganizer(object):
 			self.rounds = int(math.ceil(math.log(len(self.players), 2)))
 
 		self.round_num += 1
-		to.timer.set(3000)
-		to.timer.start()
+		self.timer.set(3000)
+		self.timer.start()
 
 		if self.round_num > self.rounds:
 			raise TournamentException('Tournament has ended, ' + self.sorted_players()[0] + ' wins!')

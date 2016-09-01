@@ -57,8 +57,8 @@ class RoundManagerWidget(QtGui.QWidget):
 		self.update()
 
 	def update(self):
-		self.round_info.setText('Round - ' + str(to.round_num) + '/' + str(to.rounds))
-		self.timer_display.setText('Time - ' + str(to.timer.remaining()))
+		self.round_info.setText('Round ' + str(to.round_num) + '/' + str(to.rounds))
+		self.timer_display.setText('Time ' + str(to.timer.remaining()))
 		if len(to.pairings) > 0:
 			self.submit_btn.setText('Round In Progress')
 			self.submit_btn.setEnabled(False)

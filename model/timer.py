@@ -48,9 +48,6 @@ class Timer(object):
 	def remaining(self, allowFormatted=True):
 		remaining = (self._time - self.elapsed(allowFormatted=False))
 
-		if remaining < 0:
-			remaining = 0
-
 		if allowFormatted and self.formatted:
 			remaining = self.format(remaining)
 
@@ -60,13 +57,18 @@ class Timer(object):
 		SECONDS_PER_HOUR = 3600
 		SECONDS_PER_MINUTE = 60
 
+		timeString = []
+		if time < 0:
+			time = abs(time)
+			timeString.append('-')
+
 		hours = int(time / SECONDS_PER_HOUR)
 		time -= hours * SECONDS_PER_HOUR
 		minutes = int(time / SECONDS_PER_MINUTE)
 		time -= minutes * SECONDS_PER_MINUTE
 		seconds = int(time)
 
-		timeString = []
+
 		if hours > 0:
 			timeString.append(str(hours))
 			timeString.append(":")
