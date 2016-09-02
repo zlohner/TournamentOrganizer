@@ -15,13 +15,15 @@ class TournamentOrganizerWidget(QtGui.QWidget):
 
 		# Default Players (for quick testing)
 		player_names = [
-			'Zac',
-			'Michael',
-			'Henry',
-			'Josh',
-			'Jacob',
-			'Ben',
-			'John'
+			'Frodo',
+			'Sam',
+			'Merry',
+			'Pippin',
+			'Gandalf',
+			'Aragorn',
+			'Legolas',
+			'Gimli',
+			'Boromir'
 		]
 		for name in player_names:
 			to.add_player(name)

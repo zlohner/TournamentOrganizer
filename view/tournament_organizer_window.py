@@ -40,11 +40,7 @@ class TournamentOrganizerWindow(QtGui.QMainWindow):
 		self.player_menu.addAction('Remove Player', self.show_remove_player_widget)
 		# self.player_menu.addAction('Random Seating', self.randomize_players) TODO: make random pairing window
 
-		self.pairings_menu = QtGui.QMenu('Pairings', self)
-		self.pairings_menu.addAction('Make Pairings')
-
 		self.menu_bar.addMenu(self.player_menu)
-		self.menu_bar.addMenu(self.pairings_menu)
 
 	def show_add_player_widget(self):
 		self.add_player_widget.show()
