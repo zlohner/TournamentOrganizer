@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import unittest
 import random
@@ -10,7 +10,7 @@ from model.tournament_exception import TournamentException
 def pairings():
 	pairings = []
 	printed = []
-	for p1, p2 in to.pairings.iteritems():
+	for p1, p2 in to.pairings.items():
 		if p1 not in printed:
 			if p2 == None:
 				pairings.append(str(to.players[p1]) + ' - BYE\n')
@@ -55,10 +55,10 @@ def run_random_tournament(NUM_PLAYERS, DROP_AFTER_ROUND=0, PRINT_OUTPUT=False):
 	ROUNDS = int(math.ceil(math.log(NUM_PLAYERS, 2)))
 
 	if PRINT_OUTPUT:
-		print ''
-		print NUM_PLAYERS,'Players'
-		print ROUNDS,'Rounds'
-		print ''
+		print('')
+		print(NUM_PLAYERS,'Players')
+		print(ROUNDS,'Rounds')
+		print('')
 
 	to.reset()
 
@@ -67,16 +67,16 @@ def run_random_tournament(NUM_PLAYERS, DROP_AFTER_ROUND=0, PRINT_OUTPUT=False):
 
 	for ROUND in range(1, ROUNDS + 1):
 		if PRINT_OUTPUT:
-			print players()
+			print(players())
 
 		to.make_pairings()
 
 		if PRINT_OUTPUT:
-			print 'R' + str(ROUND) + ':'
-			print pairings()
+			print('R' + str(ROUND) + ':')
+			print(pairings())
 
 		bye_count = 0
-		for player, opponent in to.pairings.iteritems():
+		for player, opponent in to.pairings.items():
 			if opponent == None:
 				bye_count += 1
 		expected_byes = len(to.players) % 2
@@ -84,26 +84,26 @@ def run_random_tournament(NUM_PLAYERS, DROP_AFTER_ROUND=0, PRINT_OUTPUT=False):
 			raise TournamentException('Wrong number of byes: expected ' + str(expected_byes) + ', was ' + str(bye_count))
 
 		played_count = 0
-		for player, opponent in to.pairings.iteritems():
+		for player, opponent in to.pairings.items():
 			if opponent in to.players[player].opponents:
 				played_count += 1
 				if PRINT_OUTPUT:
-					print player + ' has already played ' + opponent
+					print(player + ' has already played ' + opponent)
 
 		if not played_count == 0:
 			raise TournamentException('Pairing made for pair that have already played')
 
-		for name, player in to.players.iteritems():
+		for name, player in to.players.items():
 			if len(player.opponents) < to.round_num - 1:
-				print 'WARNING: Player received multiple byes'
-				# print 'Player:',str(player),'Opponents:',[str(opponent) for opponent in player.opponents]
-				# print 'Standings:'
-				# print players()
+				print('WARNING: Player received multiple byes')
+				# print('Player:',str(player),'Opponents:',[str(opponent) for opponent in player.opponents])
+				# print('Standings:')
+				# print(players())
 
 		to.lock_pairings()
 
 		played = []
-		round_pairings = [(player, opponent) for player, opponent in to.pairings.iteritems()]
+		round_pairings = [(player, opponent) for player, opponent in to.pairings.items()]
 		for player, opponent in round_pairings:
 			if opponent == None:
 				to.record_win(player, (2,0,0))
@@ -117,8 +117,8 @@ def run_random_tournament(NUM_PLAYERS, DROP_AFTER_ROUND=0, PRINT_OUTPUT=False):
 				to.remove_player(to.sorted_players()[-1])
 
 	if PRINT_OUTPUT:
-		print 'Results:'
-		print players()
+		print('Results:')
+		print(players())
 
 def run_multiple_tournaments(NUM_TOURNAMENTS, RANGE_START, RANGE_END):
 	for i in range(NUM_TOURNAMENTS / 2):
@@ -143,25 +143,25 @@ class TournamentOrganizerTest(unittest.TestCase):
 		NUM_SMALL_TOURNAMENTS = 98
 		SMALL_RANGE_START = 7
 		SMALL_RANGE_END = 32
-		print 'Small: %d tournaments, %d - %d players' % (NUM_SMALL_TOURNAMENTS, SMALL_RANGE_START, SMALL_RANGE_END),'...'
+		print('Small: %d tournaments, %d - %d players' % (NUM_SMALL_TOURNAMENTS, SMALL_RANGE_START, SMALL_RANGE_END),'...')
 		run_multiple_tournaments(NUM_SMALL_TOURNAMENTS, SMALL_RANGE_START, SMALL_RANGE_END)
-		print 'Success!'
+		print('Success!')
 
 	def test_medium_tournaments(self):
 		NUM_MEDIUM_TOURNAMENTS = 32
 		MEDIUM_RANGE_START = 64
 		MEDIUM_RANGE_END = 100
-		print 'Medium: %d tournaments, %d - %d players' % (NUM_MEDIUM_TOURNAMENTS, MEDIUM_RANGE_START, MEDIUM_RANGE_END),'...'
+		print('Medium: %d tournaments, %d - %d players' % (NUM_MEDIUM_TOURNAMENTS, MEDIUM_RANGE_START, MEDIUM_RANGE_END),'...')
 		run_multiple_tournaments(NUM_MEDIUM_TOURNAMENTS, MEDIUM_RANGE_START, MEDIUM_RANGE_END)
-		print 'Success!'
+		print('Success!')
 
 	def test_large_tournaments(self):
 		NUM_LARGE_TOURNAMENTS = 2
 		LARGE_RANGE_START = 120
 		LARGE_RANGE_END = 300
-		print 'Large: %d tournaments, %d - %d players' % (NUM_LARGE_TOURNAMENTS, LARGE_RANGE_START, LARGE_RANGE_END),'...'
+		print('Large: %d tournaments, %d - %d players' % (NUM_LARGE_TOURNAMENTS, LARGE_RANGE_START, LARGE_RANGE_END),'...')
 		run_multiple_tournaments(NUM_LARGE_TOURNAMENTS, LARGE_RANGE_START, LARGE_RANGE_END)
-		print 'Success!'
+		print('Success!')
 
 if __name__ == '__main__':
 		unittest.main()

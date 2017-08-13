@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-from PyQt4 import QtGui, QtCore
+from PyQt5.QtWidgets import QWidget, QBoxLayout, QPushButton, QFormLayout
 
 import style.style_loader
 import view.notifier
 
-class ErrorMessage(QtGui.QWidget):
+class ErrorMessage(QWidget):
 	def __init__(self, message, title):
 		super(ErrorMessage, self).__init__()
 		self.message = message
@@ -13,22 +13,22 @@ class ErrorMessage(QtGui.QWidget):
 		# self.setWindowTitle(title)
 		self.setStyleSheet(style.style_loader.stylesheet)
 
-		self.label = QtGui.QLabel(str(self.message), self)
+		self.label = QLabel(str(self.message), self)
 
-		self.label_widget = QtGui.QWidget(self)
-		label_layout = QtGui.QBoxLayout(QtGui.QBoxLayout.LeftToRight)
+		self.label_widget = QWidget(self)
+		label_layout = QBoxLayout(QBoxLayout.LeftToRight)
 		label_layout.addWidget(self.label)
 		self.label_widget.setLayout(label_layout)
 
-		self.submit_btn = QtGui.QPushButton('OK', self)
+		self.submit_btn = QPushButton('OK', self)
 		self.submit_btn.clicked.connect(self.submit)
 
-		self.submit_btn_widget = QtGui.QWidget(self)
-		submit_btn_layout = QtGui.QBoxLayout(QtGui.QBoxLayout.LeftToRight)
+		self.submit_btn_widget = QWidget(self)
+		submit_btn_layout = QBoxLayout(QBoxLayout.LeftToRight)
 		submit_btn_layout.addWidget(self.submit_btn)
 		self.submit_btn_widget.setLayout(submit_btn_layout)
 
-		layout = QtGui.QFormLayout()
+		layout = QFormLayout()
 		layout.addRow(self.label_widget)
 		layout.addRow(self.submit_btn_widget)
 		self.setLayout(layout)

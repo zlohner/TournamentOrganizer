@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore
 
 STYLE_DIRECTORY = './style/'
 ICON_FILENAME = STYLE_DIRECTORY + 'tournament_organizer.icns'
@@ -18,5 +18,5 @@ replacements = {
 
 with open(SS_FILENAME, 'r') as ss_file:
 	stylesheet = ss_file.read()
-for old, new in replacements.iteritems():
+for old, new in replacements.items():
 	stylesheet = stylesheet.replace(old, new)

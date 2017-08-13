@@ -107,6 +107,27 @@ QLineEdit {
 	font: 20pt;
 }
 
+QComboBox {
+	font-family: @font;
+	background: @fgcolor1;
+	color: @bgcolor;
+	width: 100px;
+	height:30px;
+	border-width: 0px;
+	font: 20pt;
+}
+
+QComboBox::down-arrow {
+	border: 2px solid @bgcolor;
+	background: @fgcolor1;
+	width: 15px;
+	margin: 22px 0 22px 0;
+}
+
+QListView {
+	background: @fgcolor2;
+}
+
 QSpinBox {
 	font-family: @font;
 	background-color: @fgcolor2;

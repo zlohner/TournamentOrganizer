@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from time import *
 
@@ -86,14 +86,14 @@ class Timer(object):
 
 if __name__ == '__main__':
 	timer = Timer().withFormatting(True).set(3600)
-	print timer.elapsed()
-	print timer.remaining()
+	print(timer.elapsed())
+	print(timer.remaining())
 	timer.start()
 	for i in range(5):
 		sleep(1)
-		print timer.elapsed()
-		print timer.remaining()
+		print(timer.elapsed())
+		print(timer.remaining())
 	timer.stop()
 	sleep(1)
-	print timer.elapsed()
-	print timer.remaining()
+	print(timer.elapsed())
+	print(timer.remaining())

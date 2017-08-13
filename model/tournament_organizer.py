@@ -1,13 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import random
 import math
-from sets import Set
 import time
 
-from player import Player
-from timer import Timer
-from tournament_exception import TournamentException
+from model.player import Player
+from model.timer import Timer
+from model.tournament_exception import TournamentException
 
 class TournamentOrganizer(object):
 	def __init__(self):
@@ -28,14 +27,14 @@ class TournamentOrganizer(object):
 		else:
 			raise TournamentException(name + ' has not been added yet')
 
-	# TODO: make sure player exists in self.players before recording win/loss/draw_box
-
 	def record_win(self, winner, record):
-		if winner in self.pairings.keys():
-			self.players[winner].record_win(record)
+		if winner in self.pairings:
+			if winner in self.players:
+				self.players[winner].record_win(record)
 			opponent = self.pairings[winner]
 			if not opponent == None and opponent in self.pairings:
-				self.players[opponent].record_loss(record)
+				if opponent in self.players:
+					self.players[opponent].record_loss(record)
 				del self.pairings[opponent]
 			del self.pairings[winner]
 		else:
@@ -43,22 +42,26 @@ class TournamentOrganizer(object):
 
 	def record_loss(self, loser, record):
 		if loser in self.pairings.keys():
-			self.players[loser].record_loss(record)
+			if loser in self.players:
+				self.players[loser].record_loss(record)
 			opponent = self.pairings[loser]
 			if not opponent == None and opponent in self.pairings:
-				self.players[opponent].record_win(record)
+				if opponent in self.players:
+					self.players[opponent].record_win(record)
 				del self.pairings[opponent]
 			del self.pairings[loser]
 		else:
 			raise TournamentException('Win not recorded, pairing for player ' + winner + ' does not exist')
 
 	def record_draw(self, player, record):
-		if player in self.pairings.keys():
+		if player in self.pairings:
 			if not self.pairings[player] == None and self.pairings[player] in self.pairings:
 				player_wins, opp_wins, draws = record
-				self.players[player].record_draw(record)
+				if player in self.players:
+					self.players[player].record_draw(record)
 				opponent = self.pairings[player]
-				self.players[opponent].record_draw((opp_wins, player_wins, draws))
+				if opponent in self.players:
+					self.players[opponent].record_draw((opp_wins, player_wins, draws))
 				del self.pairings[player]
 				del self.pairings[opponent]
 			else:
@@ -143,7 +146,7 @@ class TournamentOrganizer(object):
 		if self.round_num > self.rounds:
 			raise TournamentException('Tournament has ended, ' + self.sorted_players()[0] + ' wins!')
 
-		for p1, p2 in self.pairings.iteritems():
+		for p1, p2 in self.pairings.items():
 			if not p2 == None:
 				self.players[p1].opponents.add(self.players[p2])
 				self.players[p2].opponents.add(self.players[p1])

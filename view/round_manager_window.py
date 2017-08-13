@@ -1,16 +1,17 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-from PyQt4 import QtGui, QtCore
+from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtWidgets import QMainWindow
 
 import style.style_loader
 from view.round_manager_widget import RoundManagerWidget
 
-class RoundManagerWindow(QtGui.QMainWindow):
+class RoundManagerWindow(QMainWindow):
 	def __init__(self):
 		super(RoundManagerWindow, self).__init__()
 
 		# self.setWindowTitle('Tournament Organizer')
-		self.setWindowIcon(QtGui.QIcon(QtGui.QPixmap(style.style_loader.ICON_FILENAME_JPG)))
+		self.setWindowIcon(QIcon(QPixmap(style.style_loader.ICON_FILENAME_JPG)))
 		self.setStyleSheet(style.style_loader.stylesheet)
 		self.move(740, 600)
 

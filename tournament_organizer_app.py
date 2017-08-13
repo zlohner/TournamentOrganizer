@@ -1,7 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys
-from PyQt4 import QtGui, QtCore
+from PyQt5.QtGui import QFontDatabase
+from PyQt5.QtWidgets import QApplication
 import argparse
 
 import style.style_loader
@@ -17,8 +18,8 @@ def parseArgs():
 	return parser.parse_args()
 
 def run():
-	app = QtGui.QApplication(sys.argv)
-	QtGui.QFontDatabase.addApplicationFont('./style/' + style.style_loader.FONT + '.ttf')
+	app = QApplication(sys.argv)
+	QFontDatabase.addApplicationFont('./style/' + style.style_loader.FONT + '.ttf')
 	to_window = TournamentOrganizerWindow()
 	sys.exit(app.exec_())
 

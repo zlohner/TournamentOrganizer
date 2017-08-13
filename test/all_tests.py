@@ -1,8 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import unittest
 
-from tournament_organizer_test import TournamentOrganizerTest
+from test.tournament_organizer_test import TournamentOrganizerTest
 from model.tournament_exception import TournamentException
 
 def runTests():
@@ -14,5 +14,5 @@ def runTests():
 
 	if not result.wasSuccessful():
 		for test, trace in result.failures + result.errors:
-			print test,'\n',trace
+			print(test + '\n' + trace)
 		raise TournamentException('tests not succesful')

@@ -1,6 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-from PyQt4 import QtGui, QtCore
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import QWidget, QLabel, QPushButton, QBoxLayout, QFormLayout
 
 import style.style_loader
 import view.notifier
@@ -8,7 +9,7 @@ from model.tournament_organizer import to
 from model.tournament_exception import TournamentException
 from view.error_message import ErrorMessage
 
-class RoundManagerWidget(QtGui.QWidget):
+class RoundManagerWidget(QWidget):
 	def __init__(self, parent):
 		super(RoundManagerWidget, self).__init__(parent)
 		self.parent = parent
@@ -16,39 +17,39 @@ class RoundManagerWidget(QtGui.QWidget):
 		self.sort_order = 'by_name'
 
 		view.notifier.observers.append(self)
-		timer = QtCore.QTimer(self)
+		timer = QTimer(self)
 		timer.timeout.connect(self.update)
 		timer.start()
 
-		self.header_label = QtGui.QLabel('Round')
+		self.header_label = QLabel('Round')
 
-		self.header_widget = QtGui.QWidget(self)
-		header_layout = QtGui.QBoxLayout(QtGui.QBoxLayout.LeftToRight)
+		self.header_widget = QWidget(self)
+		header_layout = QBoxLayout(QBoxLayout.LeftToRight)
 		header_layout.addWidget(self.header_label)
 		self.header_widget.setLayout(header_layout)
 
-		self.submit_btn = QtGui.QPushButton(self)
+		self.submit_btn = QPushButton(self)
 		self.submit_btn.clicked.connect(self.submit)
 
-		self.submit_btn_widget = QtGui.QWidget(self)
-		submit_btn_layout = QtGui.QBoxLayout(QtGui.QBoxLayout.LeftToRight)
+		self.submit_btn_widget = QWidget(self)
+		submit_btn_layout = QBoxLayout(QBoxLayout.LeftToRight)
 		submit_btn_layout.addWidget(self.submit_btn)
 		self.submit_btn_widget.setLayout(submit_btn_layout)
 
-		self.round_info = QtGui.QLabel()
-		self.round_info.setAlignment(QtCore.Qt.AlignHCenter)
-		self.timer_display = QtGui.QLabel()
-		self.timer_display.setAlignment(QtCore.Qt.AlignHCenter)
+		self.round_info = QLabel()
+		self.round_info.setAlignment(Qt.AlignCenter)
+		self.timer_display = QLabel()
+		self.timer_display.setAlignment(Qt.AlignCenter)
 
-		self.info_widget = QtGui.QWidget(self)
-		info_layout = QtGui.QBoxLayout(QtGui.QBoxLayout.LeftToRight)
+		self.info_widget = QWidget(self)
+		info_layout = QBoxLayout(QBoxLayout.LeftToRight)
 		info_layout.addWidget(self.round_info)
 		info_layout.addWidget(self.timer_display)
 		self.info_widget.setLayout(info_layout)
 
 		self.error = None
 
-		layout = QtGui.QFormLayout()
+		layout = QFormLayout()
 		layout.addRow(self.header_widget)
 		layout.addRow(self.submit_btn_widget)
 		layout.addRow(self.info_widget)

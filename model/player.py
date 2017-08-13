@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 WIN_MATCH_POINTS = 3
 LOSE_MATCH_POINTS = 0
@@ -7,7 +7,6 @@ DRAW_MATCH_POINTS = 1
 import sys
 import random
 import numpy
-from sets import Set
 
 class Player(object):
 	def __init__(self, name):
@@ -18,9 +17,9 @@ class Player(object):
 		self.game_wins = 0
 		self.game_losses = 0
 		self.game_draws = 0
-		self.opponents = Set()
+		self.opponents = set()
 		self.byes = 0
-		self.sort_constant = random.randint(1, sys.maxint)
+		self.sort_constant = random.randint(1, sys.maxsize)
 
 	def add_record(self, record):
 		game_wins, game_losses, game_draws = record

@@ -1,12 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-from PyQt4 import QtGui, QtCore
+from PyQt5.QtWidgets import QMainWindow
 
 import style.style_loader
 from view.pairings_widget import PairingsWidget
 from view.report_result_widget import ReportResultWidget
 
-class PairingsWindow(QtGui.QMainWindow):
+class PairingsWindow(QMainWindow):
 	def __init__(self):
 		super(PairingsWindow, self).__init__()
 
@@ -24,4 +24,5 @@ class PairingsWindow(QtGui.QMainWindow):
 		self.setFixedHeight(self.height())
 
 	def show_report_result_widget(self):
+		self.report_result_widget.update()
 		self.report_result_widget.show()
