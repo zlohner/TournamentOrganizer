@@ -7,6 +7,7 @@ import time
 from model.player import Player
 from model.timer import Timer
 from model.tournament_exception import TournamentException
+from model.user_manager import um
 
 class TournamentOrganizer(object):
 	def __init__(self):
@@ -16,13 +17,25 @@ class TournamentOrganizer(object):
 		self.rounds = 0
 		self.timer = Timer()
 
-	def add_player(self, name):
-		if name in self.players:
-			raise TournamentException(name + ' has already been added')
-		self.players[name] = Player(name)
+	def add_player(self, name, user):
+		if user.id in [player.user.id for player in self.players.values()]:
+			raise TournamentException(user.name + '#' + str(user.id) + ' has already been added')
+		elif user.name in self.players:
+			existing_player = self.players[user.name]
+			self.players.pop(user.name)
+
+			new_tag = existing_player.name + '#' + str(existing_player.user.id)
+			existing_player.name = new_tag
+			self.players[new_tag] = existing_player
+
+			tag = name + '#' + str(user.id)
+			self.players[tag] = Player(tag, user)
+		else:
+			self.players[user.name] = Player(user.name, user)
 
 	def remove_player(self, name):
 		if name in self.players:
+			um.save_user(self.players[name].user)
 			del self.players[name]
 		else:
 			raise TournamentException(name + ' has not been added yet')
@@ -143,13 +156,14 @@ class TournamentOrganizer(object):
 		self.timer.set(3000)
 		self.timer.start()
 
-		if self.round_num > self.rounds:
-			raise TournamentException('Tournament has ended, ' + self.sorted_players()[0] + ' wins!')
-
 		for p1, p2 in self.pairings.items():
 			if not p2 == None:
 				self.players[p1].opponents.add(self.players[p2])
 				self.players[p2].opponents.add(self.players[p1])
+
+	def game_end(self):
+		for name, player in self.players.items():
+			um.save_user(player.user)
 
 	def reset(self):
 		self.players = {}

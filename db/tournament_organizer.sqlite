@@ -1,0 +1,15 @@
+CREATE TABLE `users` (
+	`id`	INTEGER NOT NULL PRIMARY KEY UNIQUE,
+	`name`	TEXT NOT NULL,
+	`match_wins`	INTEGER NOT NULL DEFAULT 0,
+	`match_losses`	INTEGER NOT NULL DEFAULT 0,
+	`match_draws`	INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE `decks` (
+	`id`	INTEGER NOT NULL PRIMARY KEY UNIQUE,
+	`user_id`	INTEGER NOT NULL FOREIGN KEY,
+	`colors`	TEXT NOT NULL,
+	`strategy`	TEXT NOT NULL,
+	`archetype`	TEXT
+)

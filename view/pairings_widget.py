@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from PyQt5.QtCore import *
-from PyQt5.QtWidgets import QWidget, QLabel, QBoxLayout, QTableWidget, QTableWidgetItem, QPushButton, QFormLayout
+from PyQt5.QtWidgets import QWidget, QLabel, QBoxLayout, QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, QFormLayout
 
 import style.style_loader
 import view.notifier
@@ -26,8 +26,8 @@ class PairingsWidget(QWidget):
 		self.pairings_list = QTableWidget(style.style_loader.TABLE_INITIAL_LENGTH, 2, self)
 		self.pairings_list.setFixedHeight(300)
 		self.pairings_list.setFixedWidth(400)
-		# self.pairings_list.horizontalHeader().setResizeMode(QHeaderView.Stretch)
-		# self.pairings_list.verticalHeader().setResizeMode(QHeaderView.Fixed)
+		self.pairings_list.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+		self.pairings_list.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
 
 		self.pairings_list_widget = QWidget(self)
 		pairings_list_layout = QBoxLayout(QBoxLayout.LeftToRight)
@@ -70,7 +70,7 @@ class PairingsWidget(QWidget):
 			index += 1
 		self.pairings_list.show()
 
-	def player_added(self, player):
+	def player_added(self, player, user):
 		pass
 
 	def player_removed(self, player):

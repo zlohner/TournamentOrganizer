@@ -77,6 +77,7 @@ class RoundManagerWidget(QWidget):
 
 	def submit(self):
 		if to.rounds > 0 and to.round_num == to.rounds:
+			to.game_end()
 			to.reset()
 			view.notifier.reset()
 		else:
@@ -89,7 +90,7 @@ class RoundManagerWidget(QWidget):
 				self.error.setStyleSheet(style.style_loader.stylesheet)
 				self.error.show()
 
-	def player_added(self, player):
+	def player_added(self, player, user):
 		pass
 
 	def player_removed(self, player):

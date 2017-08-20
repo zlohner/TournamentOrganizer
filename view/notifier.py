@@ -6,9 +6,9 @@ def update():
 	for o in observers:
 		o.update()
 
-def player_added(player):
+def player_added(player, user):
 	for o in observers:
-		o.player_added(player)
+		o.player_added(player, user)
 
 def player_removed(player):
 	for o in observers:

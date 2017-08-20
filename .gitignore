@@ -1,5 +1,3 @@
 *.json
 *.pyc
-user.py
-user_manager.py
-view/user_manager*
+*.db

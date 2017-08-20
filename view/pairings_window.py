@@ -12,7 +12,7 @@ class PairingsWindow(QMainWindow):
 
 		# self.setWindowTitle('Pairings')
 		self.setStyleSheet(style.style_loader.stylesheet)
-		self.move(700, 60)
+		self.move(1100, 200)
 
 		self.pairings_widget = PairingsWidget(self)
 		self.setCentralWidget(self.pairings_widget)

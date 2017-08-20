@@ -21,7 +21,6 @@ QTableWidget {
 	font-family: @font;
 	background-color: @fgcolor2;
 	color: @bgcolor;
-	border: 1px solid @fgcolor1;
 	font: 20pt;
 }
 

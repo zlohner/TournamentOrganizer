@@ -9,8 +9,9 @@ import random
 import numpy
 
 class Player(object):
-	def __init__(self, name):
+	def __init__(self, name, user):
 		self.name = name
+		self.user = user
 		self.match_wins = 0
 		self.match_losses = 0
 		self.match_draws = 0
@@ -30,14 +31,17 @@ class Player(object):
 	def record_win(self, record):
 		self.add_record(record)
 		self.match_wins += 1
+		self.user.match_wins += 1
 
 	def record_loss(self, record):
 		self.add_record(record)
 		self.match_losses += 1
+		self.user.match_losses += 1
 
 	def record_draw(self, record):
 		self.add_record(record)
 		self.match_draws += 1
+		self.user.match_draws += 1
 
 	def match_points(self):
 		return \

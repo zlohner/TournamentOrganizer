@@ -20,7 +20,7 @@ class TournamentOrganizerWindow(QMainWindow):
 
 		self.tournament_organizer_widget = TournamentOrganizerWidget(self)
 		self.setCentralWidget(self.tournament_organizer_widget)
-		self.move(200, 130)
+		self.move(600, 200)
 
 		self.user_manager_window = UserManagerWindow()
 		self.add_player_widget = AddPlayerWidget()
@@ -45,7 +45,9 @@ class TournamentOrganizerWindow(QMainWindow):
 		self.menu_bar.addMenu(self.player_menu)
 
 	def show_add_player_widget(self):
+		self.add_player_widget.update()
 		self.add_player_widget.show()
 
 	def show_remove_player_widget(self):
+		self.remove_player_widget.update()
 		self.remove_player_widget.show()

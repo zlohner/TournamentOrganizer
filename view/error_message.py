@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from PyQt5.QtWidgets import QWidget, QBoxLayout, QPushButton, QFormLayout
+from PyQt5.QtWidgets import QLabel, QWidget, QBoxLayout, QPushButton, QFormLayout
 
 import style.style_loader
 import view.notifier

@@ -63,7 +63,7 @@ def run_random_tournament(NUM_PLAYERS, DROP_AFTER_ROUND=0, PRINT_OUTPUT=False):
 	to.reset()
 
 	for PLAYER_NAME in range(1, NUM_PLAYERS + 1):
-		to.add_player(str(PLAYER_NAME))
+		to.add_player(str(PLAYER_NAME), None)
 
 	for ROUND in range(1, ROUNDS + 1):
 		if PRINT_OUTPUT:

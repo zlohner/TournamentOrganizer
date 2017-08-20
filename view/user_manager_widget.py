@@ -5,35 +5,21 @@ from PyQt5.QtWidgets import QWidget, QLabel, QBoxLayout, QPushButton, QTableWidg
 
 import style.style_loader
 import view.notifier
+from model.user_manager import um
 from model.tournament_organizer import to
 from model.tournament_exception import TournamentException
 from view.error_message import ErrorMessage
 
-class TournamentOrganizerWidget(QWidget):
+class UserManagerWidget(QWidget):
 	def __init__(self, parent):
-		super(TournamentOrganizerWidget, self).__init__(parent)
+		super(UserManagerWidget, self).__init__(parent)
 		self.parent = parent
-
-		# Default Players (for quick testing)
-		player_names = [
-			'Frodo',
-			'Sam',
-			'Merry',
-			'Pippin',
-			'Gandalf',
-			'Aragorn',
-			'Legolas',
-			'Gimli',
-			'Boromir'
-		]
-		# for name in player_names:
-		# 	to.add_player(name, None)
 
 		self.sort_order = 'by_name'
 
 		view.notifier.observers.append(self)
 
-		self.header_label = QLabel('Players')
+		self.header_label = QLabel('Users')
 
 		self.header_widget = QWidget(self)
 		header_layout = QBoxLayout(QBoxLayout.LeftToRight)
@@ -52,23 +38,21 @@ class TournamentOrganizerWidget(QWidget):
 		sort_btns_layout.addWidget(self.sort_by_rank_btn)
 		self.sort_btns_widget.setLayout(sort_btns_layout)
 
-		self.player_list = QTableWidget(style.style_loader.TABLE_INITIAL_LENGTH, 2, self)
-		self.player_list.setHorizontalHeaderLabels(['Name', 'Record'])
-		self.player_list.setFixedHeight(300)
-		self.player_list.setFixedWidth(400)
-		self.player_list.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-		self.player_list.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
-		self.player_list.horizontalHeader().setVisible(True)
+		self.user_list = QTableWidget(style.style_loader.TABLE_INITIAL_LENGTH, 3, self)
+		self.user_list.setFixedHeight(300)
+		self.user_list.setFixedWidth(400)
+		self.user_list.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+		self.user_list.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
 
-		self.player_list_widget = QWidget(self)
-		player_list_layout = QBoxLayout(QBoxLayout.LeftToRight)
-		player_list_layout.addWidget(self.player_list)
-		self.player_list_widget.setLayout(player_list_layout)
+		self.user_list_widget = QWidget(self)
+		user_list_layout = QBoxLayout(QBoxLayout.LeftToRight)
+		user_list_layout.addWidget(self.user_list)
+		self.user_list_widget.setLayout(user_list_layout)
 
-		self.add_player_btn = QPushButton('Add Player', self)
-		self.add_player_btn.clicked.connect(self.parent.show_add_player_widget)
-		self.remove_player_btn = QPushButton('Remove Player', self)
-		self.remove_player_btn.clicked.connect(self.parent.show_remove_player_widget)
+		self.add_player_btn = QPushButton('Add User', self)
+		self.add_player_btn.clicked.connect(self.parent.show_add_user_widget)
+		self.remove_player_btn = QPushButton('Remove User', self)
+		self.remove_player_btn.clicked.connect(self.parent.show_remove_user_widget)
 
 		self.player_btns_widget = QWidget(self)
 		player_btn_layout = QBoxLayout(QBoxLayout.LeftToRight)
@@ -82,29 +66,32 @@ class TournamentOrganizerWidget(QWidget):
 		layout = QFormLayout()
 		layout.addRow(self.header_widget)
 		layout.addRow(self.sort_btns_widget)
-		layout.addRow(self.player_list_widget)
+		layout.addRow(self.user_list_widget)
 		layout.addRow(self.player_btns_widget)
 		self.setLayout(layout)
 
 		self.update()
 
 	def update(self):
-		self.player_list.clearContents()
-
-		players = [to.players[player] for player in to.sorted_players(self.sort_order)]
+		self.user_list.clearContents()
+		# TODO: get the most recent user list
+		users = um.users()
 
 		index = 0
-		for player in players:
-			if index == self.player_list.rowCount():
-				self.player_list.insertRow(index)
-			name_item = QTableWidgetItem(player.name)
+		for user in users:
+			if index == self.user_list.rowCount():
+				self.user_list.insertRow(index)
+			name_item = QTableWidgetItem(user.name)
 			name_item.setFlags(name_item.flags() & ~Qt.ItemIsEditable)
-			self.player_list.setItem(index, 0, name_item)
-			record_item = QTableWidgetItem(player.record_str())
+			self.user_list.setItem(index, 0, name_item)
+			id_item = QTableWidgetItem(str(user.id))
+			id_item.setFlags(id_item.flags() & ~Qt.ItemIsEditable)
+			self.user_list.setItem(index, 1, id_item)
+			record_item = QTableWidgetItem(user.record_str())
 			record_item.setFlags(record_item.flags() & ~Qt.ItemIsEditable)
-			self.player_list.setItem(index, 1, record_item)
+			self.user_list.setItem(index, 2, record_item)
 			index += 1
-		self.player_list.show()
+		self.user_list.show()
 
 	def sort_by_name(self):
 		self.sort_order = 'by_name'
@@ -115,21 +102,9 @@ class TournamentOrganizerWidget(QWidget):
 		self.update()
 
 	def player_added(self, player, user):
-		try:
-			to.add_player(player, user)
-		except TournamentException as ex:
-			self.error = ErrorMessage(str(ex), '')
-			self.error.setStyleSheet(style.style_loader.stylesheet)
-			self.error.show()
 		self.update()
 
 	def player_removed(self, player):
-		try:
-			to.remove_player(player)
-		except TournamentException as ex:
-			self.error = ErrorMessage(str(ex), '')
-			self.error.setStyleSheet(style.style_loader.stylesheet)
-			self.error.show()
 		self.update()
 
 	def report_result(self, player, record, win_or_draw):
