@@ -17,7 +17,7 @@ class UserManager(object):
 
 	def user(self, uid):
 		c = self.connection.cursor()
-		row = c.execute('SELECT * FROM users WHERE id = ?', (uid,))
+		row = c.execute('SELECT * FROM users WHERE id = ?', (uid,)).fetchone()
 		return User(row['id'], row['name'], row['match_wins'], row['match_losses'], row['match_draws'])
 
 	def decks(self, uid):
@@ -44,6 +44,9 @@ class UserManager(object):
 				(user.id, user.name, user.match_wins, user.match_losses, user.match_draws) \
 			)
 		self.connection.commit()
+
+
+# TODO: Remove this when construction complete
 
 if __name__ == '__main__':
 	manager = UserManager()

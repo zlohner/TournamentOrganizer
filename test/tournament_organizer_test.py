@@ -121,7 +121,7 @@ def run_random_tournament(NUM_PLAYERS, DROP_AFTER_ROUND=0, PRINT_OUTPUT=False):
 		print(players())
 
 def run_multiple_tournaments(NUM_TOURNAMENTS, RANGE_START, RANGE_END):
-	for i in range(NUM_TOURNAMENTS / 2):
+	for i in range(NUM_TOURNAMENTS // 2):
 		r = random.randint(RANGE_START, RANGE_END)
 		run_random_tournament(
 			r,

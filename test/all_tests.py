@@ -14,5 +14,5 @@ def runTests():
 
 	if not result.wasSuccessful():
 		for test, trace in result.failures + result.errors:
-			print(test + '\n' + trace)
+			print(str(test) + '\n' + trace)
 		raise TournamentException('tests not succesful')

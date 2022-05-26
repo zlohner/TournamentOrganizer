@@ -17,7 +17,7 @@ class TournamentOrganizer(object):
 		self.rounds = 0
 		self.timer = Timer()
 
-	def add_player(self, name, user):
+	def add_player(self, name, user=None):
 		if user.id in [player.user.id for player in self.players.values()]:
 			raise TournamentException(user.name + '#' + str(user.id) + ' has already been added')
 		elif user.name in self.players:
@@ -28,10 +28,10 @@ class TournamentOrganizer(object):
 			existing_player.name = new_tag
 			self.players[new_tag] = existing_player
 
-			tag = name + '#' + str(user.id)
+			tag = user.name + '#' + str(user.id)
 			self.players[tag] = Player(tag, user)
 		else:
-			self.players[user.name] = Player(user.name, user)
+			self.players[name] = Player(user.name, user)
 
 	def remove_player(self, name):
 		if name in self.players:
